@@ -2,6 +2,13 @@
 
 Demo app for [Cloud Coffee Break](https://github.com/symphoniacloud/cloud-coffee-break).
 
+## Running Unit tests
+
+```
+% npm install
+% npm test
+```
+
 ## Creating, deploying, calling, and tearing-down
 
 First, make sure you have the prerequisites setup, as described [in the notes for Episode 1](https://github.com/symphoniacloud/cloud-coffee-break/blob/main/episode1/README.md).
