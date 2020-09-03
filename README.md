@@ -28,3 +28,7 @@ Since this application is available to the public internet you probably want to 
 ```
 % aws cloudformation delete-stack --stack-name sam-app
 ```
+
+## Continuous integration automation
+
+To deploy CI automation using CodeBuild, see the [automation](automation/README.md) README.
