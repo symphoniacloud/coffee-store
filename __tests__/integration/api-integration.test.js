@@ -1,8 +1,20 @@
-const {test, expect} = require("@jest/globals"),
+const {beforeAll, test, expect} = require("@jest/globals"),
+    AWS = require("aws-sdk"),
     https = require('https')
 
+let apiEndpoint
+
+beforeAll(async () => {
+    const apiName = process.env.hasOwnProperty('API_NAME') ? process.env['API_NAME'] : 'sam-app'
+    console.log(`Looking for API Gateway named [${apiName}]`)
+
+    const apis = await new AWS.ApiGatewayV2().getApis().promise()
+
+    apiEndpoint = apis.Items.find(api => api.Name === apiName).ApiEndpoint
+    console.log(`Using Coffee Store API at [${apiEndpoint}]`)
+})
+
 test('API should return 200 exit code and expected content', async () => {
-    const apiEndpoint = process.env.COFFEE_API_ENDPOINT
     expect(apiEndpoint).toBeDefined()
 
     const result = await getWithBody(`${apiEndpoint}/`)
