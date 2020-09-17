@@ -5,7 +5,9 @@ const {beforeAll, test, expect} = require("@jest/globals"),
 let apiEndpoint
 
 beforeAll(async () => {
-    const stackName = `coffee-store-${process.env['USER']}`
+    const stackName = process.env.hasOwnProperty('STACK_NAME')
+        ? process.env['STACK_NAME']
+        : `coffee-store-${process.env['USER']}`
     console.log(`Looking for API Gateway in stack [${stackName}]`)
 
     const cloudformationStacks = await new AWS.CloudFormation().describeStacks({StackName: stackName}).promise()

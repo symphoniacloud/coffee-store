@@ -2,7 +2,11 @@
 
 set -euo pipefail
 
-STACK_NAME="coffee-store-${USER}"
+if [ "$#" -gt 0 ]; then
+  STACK_NAME=$1
+else
+  STACK_NAME="coffee-store-${USER}"
+fi
 
 CLOUDFORMATION_ARTIFACTS_BUCKET=$(aws cloudformation list-exports --query "Exports[?Name==\`CloudformationArtifactsBucket\`].Value" --output text)
 if [ -z "$CLOUDFORMATION_ARTIFACTS_BUCKET" ]; then
