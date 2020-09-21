@@ -6,16 +6,22 @@ const {beforeAll, afterAll, test, expect} = require("@jest/globals"),
 
 const cloudFormation = new AWS.CloudFormation()
 
+const isUsingEphemeralStack = !process.env.hasOwnProperty('STACK_NAME')
 let stackName
 let apiEndpoint
 
 beforeAll(async () => {
-    stackName = generateEphemeralStackName()
+    stackName = isUsingEphemeralStack ? generateEphemeralStackName() : process.env['STACK_NAME']
 
-    console.log(`Starting cloudformation deployment of stack ${stackName}`)
-    const { stdout } = await exec(`./deploy.sh ${stackName}`)
-    console.log('Deployment finished')
-    console.log(stdout)
+    if (isUsingEphemeralStack) {
+        console.log(`Starting cloudformation deployment of stack ${stackName}`)
+        const { stdout } = await exec(`./deploy.sh ${stackName}`)
+        console.log('Deployment finished')
+        console.log(stdout)
+    }
+    else {
+        console.log(`Using existing stack ${stackName} as application target`)
+    }
 
     const cloudformationStacks = await cloudFormation.describeStacks({StackName: stackName}).promise()
     const apiID = cloudformationStacks
@@ -52,8 +58,13 @@ function twoCharacter(number) {
 }
 
 afterAll(async () => {
-    console.log(`Calling cloudformation to delete stack ${stackName}`)
-    await cloudFormation.deleteStack({StackName: stackName}).promise()
+    if (isUsingEphemeralStack) {
+        console.log(`Calling cloudformation to delete stack ${stackName}`)
+        await cloudFormation.deleteStack({StackName: stackName}).promise()
+    }
+    else {
+        console.log(`Leaving stack ${stackName} as deployed`)
+    }
 })
 
 test('API should return 200 exit code and expected content', async () => {
