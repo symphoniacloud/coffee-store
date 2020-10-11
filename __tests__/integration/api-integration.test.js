@@ -16,7 +16,6 @@ beforeAll(async () => {
     if (isUsingEphemeralStack) {
         console.log(`Starting cloudformation deployment of stack ${stackName}`)
         const { stdout } = await exec(`./deploy.sh ${stackName}`)
-        console.log('Deployment finished')
         console.log(stdout)
     }
     else {
