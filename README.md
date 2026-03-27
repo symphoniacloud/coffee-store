@@ -1,5 +1,7 @@
 # Coffee Store
 
+**THIS REPOSITORY IS ARCHIVED AND UNMAINTANED. IT MAY NO LONGER WORK WITH RELEVANT DEPENDENCIES AND SERVICES. IT MAY SPECIFY INSECURE LIBRARY DEPENDENCIES.**
+
 Demo app for [Cloud Coffee Break](https://github.com/symphoniacloud/cloud-coffee-break).
 
 ## Running Unit tests
